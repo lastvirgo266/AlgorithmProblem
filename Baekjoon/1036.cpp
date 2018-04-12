@@ -4,43 +4,59 @@
 #include<memory.h>
 
 
+int number_count[37];
+
 int main(){
-	int number_count[37];
+
 
 	char tNumber[50] = { NULL };
-	int count = 0;
+	char allNumber[50][50];
+
+	int N;
+	int digit_count = 0;
 
 	//Array set same value
 	memset(tNumber, NULL, sizeof(tNumber));
 	memset(number_count, 0, sizeof(number_count));
+	memset(*allNumber, NULL, sizeof(*allNumber));
 
+
+
+	scanf("%d", &N);
 	scanf("%s", tNumber);
 
 
-	for (int i = 0; tNumber[i] != NULL; i++)
-		count++;
+	for (int k = 0; k < N; k++){
+
+
+		for (int i = 0; tNumber[i] != NULL; i++){
+			digit_count++;
+			allNumber[k][i] = tNumber[i];
+		}
 
 
 
-	for (int i = 0; i < count; i++){
+		for (int i = 0; i < digit_count; i++){
 
-		// Count 0 to 9
-		if ((int)tNumber[i] < 58)
-			number_count[(int)tNumber[i] - 48] = pow((double)35, (count - i));
+			// Count 0 to 9
+			if ((int)tNumber[i] < 58)
+				number_count[(int)tNumber[i] - 48] = pow((double)35, (digit_count - i));
 
-		else
-			number_count[(int)tNumber[i] - 55] = pow((double)35, (count - i));
+			else
+				number_count[(int)tNumber[i] - 55] = pow((double)35, (digit_count - i));
+		}
+
+
+
+
+		//count value set
+		digit_count = 0;
 	}
 
 
-	//count value set
-	count = 0;
+	int K;
 
-
-
-
-
-
+	scanf("%d", &K);
 
 
 
@@ -50,7 +66,13 @@ int main(){
 }
 
 
-void Sort_alphabet(int change_count, char* tNumber){
+void Sort_Cahnge_alphabet(int change_count, char* allNumber){
+
+	//Sorting
+
+
+
+
 
 
 
