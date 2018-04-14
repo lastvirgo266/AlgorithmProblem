@@ -4,17 +4,18 @@
 #include<utility>
 #include<vector>
 #include<algorithm>
+#include<iostream>
 
 using namespace std;
 void Digit_Count();
-void Add_36digit(int);
+void Add_36digit(unsigned long long);
 
 
 // <size, digit>
-vector<pair<int, int>> number_count;
+vector<pair<unsigned long long, int>> number_count;
 
 // <size,digit>
-vector<pair<int, int>> number_table;
+vector<pair<unsigned long long, int>> number_table;
 
 
 // change and save 36digit
@@ -28,8 +29,6 @@ int main(){
 	int N;
 	int digit_count = 0;
 
-	//for set pair.second
-	int weight;
 
 	//Array set same value
 	memset(*allNumber, NULL, sizeof(*allNumber));
@@ -77,10 +76,6 @@ int main(){
 		}
 
 
-		// Test Print //
-		for (int i = 0; i < 36; i++){
-			printf("%d   %d\n", number_count[i].first, number_count[i].second);
-		}
 
 
 
@@ -97,10 +92,7 @@ int main(){
 	sort(number_count.begin(), number_count.end());
 
 
-	// Test Print //
-	for (int i = 0; i < 36; i++){
-		printf("%d   %d\n", number_count[i].first, number_count[i].second);
-	}
+
 	
 
 
@@ -131,21 +123,16 @@ int main(){
 		number_table[change_list[i]].second = 35;
 
 
-	int result = 0;
-
 	// PLUS
 	for (int i = 0; i < 36; i++)
-		Add_36digit( number_table[i].first * number_table[i].second);
+		Add_36digit( number_table[i].first * (unsigned long long)number_table[i].second);
 
 
-	printf("%d", result);
 
 
-	//TestLine
-	printf("\n-----------------------------------------------------------\n");
 	bool start = false;
 
-	for (int i = 50; i >= 0; i--){
+	for (int i = 50; i >= 1; i--){
 
 
 		if (number_table_change[i] >= 10){
@@ -169,28 +156,24 @@ int main(){
 	}
 
 
-	for (int i = 50; i >= 0; i--)
-		printf("원본값 : %d\n", number_table_change[i]);
+
 
 
 }
 
 
-void Add_36digit(int add_number){
+void Add_36digit(unsigned long long add_number){
 	//plus
 	int pow_number = 0;
-	int origin_number = add_number;
-	int temp_number = add_number;
+	unsigned long long origin_number = add_number;
+	unsigned long long temp_number = add_number;
 
-	//TestLine
-	printf("%d\n", add_number);
 	
 	while (origin_number != 0){
 
 		if (temp_number > 36){
 			temp_number /= 36;
 			pow_number++;
-			printf("pow_number : %d\n", pow_number);
 		}
 
 		else {
@@ -206,8 +189,6 @@ void Add_36digit(int add_number){
 			pow_number = 0;
 			temp_number = origin_number;
 			Digit_Count();
-			printf("저장완료\n");
-			printf("add_number : %d\n", origin_number);
 		}
 
 	}
