@@ -88,9 +88,19 @@ int main(){
 	number_table = number_count;
 
 
+
+
 	//Sort
+
+		//For weight
+	for (int i = 0; i < 36; i++)
+		number_count[i].first = number_count[i].first*(35 - i);
+
 	sort(number_count.begin(), number_count.end());
 
+	//TestLine//
+	for (int i = 0; i < 36; i++)
+		cout << number_count[i].first << " " << number_count[i].second << endl;
 
 
 	
@@ -109,8 +119,6 @@ int main(){
 	//Input big digit to change_list
 	for (int i = 0; i < K; i++)
 		change_list[i] = number_count[35 - i].second;
-
-		//Test Print //
 
 
 	
@@ -174,6 +182,7 @@ void Add_36digit(unsigned long long add_number){
 		if (temp_number > 36){
 			temp_number /= 36;
 			pow_number++;
+
 		}
 
 		else {
@@ -184,6 +193,7 @@ void Add_36digit(unsigned long long add_number){
 			//temp_number 예외처리
 			if (temp_number == 0)
 				temp_number = 1;
+
 
 			origin_number -= pow((double)36, pow_number)*temp_number;
 			pow_number = 0;
