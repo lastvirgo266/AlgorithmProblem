@@ -4,13 +4,12 @@
 #include<utility>
 #include<vector>
 #include<algorithm>
-#include<iostream>
-
 using namespace std;
+
 void Digit_Count(vector<int> &total);
-//void Add_36digit(vector<int> &total, unsigned long long add_number);
 void Print_table(vector<int> &total);
 void Total_Plus_Add(vector<int> &total, vector<int> &add, int coe);
+void Number_Sort(vector<pair<vector<int>, int>> &number_count, vector<int> &change_list);
 
 
 
@@ -18,8 +17,10 @@ void Total_Plus_Add(vector<int> &total, vector<int> &add, int coe);
 int main(){
 
 
+
 	// <size, digit>
-	vector<pair<unsigned long long, int>> number_count;
+	vector<pair<vector<int>, int>> number_count;
+	number_count.resize(36);
 
 	// <size,digit>
 	vector<pair<vector<int>, int>> number_table;
@@ -27,11 +28,13 @@ int main(){
 
 
 	//finally change and save 36digit
+	vector<int> change_list;
 	vector<int> total;
 
 
 
-	char allNumber[50][50];
+
+	char allNumber[51][51];
 
 	int N;
 	int digit_count = 0;
@@ -40,23 +43,23 @@ int main(){
 	//Array set same value
 	memset(*allNumber, NULL, sizeof(*allNumber));
 
-	for (int i = 0; i < 36; i++){
-		number_count.push_back(make_pair(0, i));
+	for (int i = 0; i < number_count.size(); i++){
+		number_count[i].second = i;
 
+		for (int j = 0; j <= 51; j++)
+			number_count[i].first.push_back(0);
 	}
 
 	for (int i = 0; i <= 51; i++){
 		total.push_back(0);
 		number_table[i].second = i;
 
-
-
-
 		
-		for (int i = 0; i <= 51; i++)
+		for (int j = 0; j <= 51; j++)
 			number_table[i].first.push_back(0);
 
 	}
+
 
 
 	//Input N's numebr
@@ -78,8 +81,7 @@ int main(){
 
 			// Count 0 to 9
 			if ((int)allNumber[k][i] < 58){
-				number_count[(int)allNumber[k][i] - 48].first = number_count[(int)allNumber[k][i] - 48].first + pow((double)2, (digit_count - i));
-			//	Add_36digit(number_table[(int)allNumber[k][i] - 48].first, pow((double)36, (digit_count - i)));
+				number_count[(int)allNumber[k][i] - 48].first[digit_count - i] += (35 - (1 * number_count[(int)allNumber[k][i] - 48].second));
 				number_table[(int)allNumber[k][i] - 48].first[digit_count - i] +=1;
 
 
@@ -89,8 +91,7 @@ int main(){
 			
 
 			else{
-				number_count[(int)allNumber[k][i] - 55].first = number_count[(int)allNumber[k][i] - 55].first + pow((double)2, (digit_count - i));
-				//Add_36digit(number_table[(int)allNumber[k][i] - 55].first, pow((double)36, (digit_count - i)));
+				number_count[(int)allNumber[k][i] - 55].first[digit_count - i] += (35 - (1 * number_count[(int)allNumber[k][i] - 55].second));
 				number_table[(int)allNumber[k][i] - 55].first[digit_count - i] += 1;
 			}
 
@@ -102,72 +103,24 @@ int main(){
 		}
 
 
-
-
-
-
 		//count value set
 		digit_count = 0;
 	}
 
 
-	//Need modify
-
-	//Before sorting, save number table
-	//number_table = number_count;
-
-
-
-
 	//Sort
-
-		//For weight
-	for (int i = 0; i < 36; i++)
-		number_count[i].first = number_count[i].first ;
-
-	sort(number_count.begin(), number_count.end());
-
-	//TestLine
-
-	for (int i = 0; i < 36; i++)
-		cout << number_count[i].first <<"   "<<number_count[i].second << endl;
+	Number_Sort(number_count, change_list);
 	
-
-
 
 	int K;
 
 	//Input K
 	scanf("%d", &K);
 
-	//Making dynamic int array
-	int *change_list;
-	change_list = new int[K];
-
-	//Input big digit to change_list
-	for (int i = 0; i < K; i++)
-		change_list[i] = number_count[35 - i].second;
-
-
-	
-
-
-
 
 	//Change
 	for (int i = 0; i < K; i++)
 		number_table[change_list[i]].second = 35;
-
-
-
-	// Need modify
-
-	// PLUS
-//	for (int i = 0; i < 36; i++)
-//		Add_36digit( number_table[i].first * (unsigned long long)number_table[i].second);
-
-	// Need modify
-
 
 
 	//total += number_table
@@ -185,63 +138,11 @@ int main(){
 }
 
 
-/*
-void Add_36digit(vector<int> &total, unsigned long long add_number){
-	//plus
-	int pow_number = 0;
-	unsigned long long origin_number = add_number;
-	unsigned long long temp_number = add_number;
-
-
-	
-	while (origin_number != 0){
-
-		if (temp_number >= 36){
-			temp_number /= 36;
-			pow_number++;
-
-
-			//TestLine
-			printf("temp number : %d\n", temp_number);
-
-
-		}
-		else {
-
-
-			total[pow_number] += temp_number;
-
-			//TestLine
-			printf("%d\n", total[pow_number]);
-
-			//temp_number 예외처리
-			if (temp_number == 0)
-				temp_number = 1;
-
-			//TestLine
-			printf("origin number : %d\n");
-
-
-			origin_number -= pow((double)36, pow_number)*temp_number;
-			pow_number = 0;
-			temp_number = origin_number;
-
-		}
-
-	}
-
-	Digit_Count(total);
-
-}
-
-*/
-
-
 
 void Digit_Count(vector<int> &total){
 	int i = 0;
 
-	while (i <= 51){
+	while (i < 51){
 
 		if (total[i] >= 36){
 			while (total[i] >= 36){
@@ -258,8 +159,6 @@ void Digit_Count(vector<int> &total){
 
 
 	}
-
-
 
 }
 
@@ -304,4 +203,81 @@ void Print_table(vector<int> &total){
 		}
 
 	}
+}
+
+
+void Number_Sort(vector<pair<vector<int>, int>> &number_count, vector<int> &chage_list){
+	
+	for (int i = 0; i < 36; i++)
+		Digit_Count(number_count[i].first);
+	
+
+
+
+	int count = 51;
+	int delete_count = 0;
+
+	while (count >= 1){
+		int max = 0;
+		int max_count = 0;
+
+
+
+		for (int i = 0; i < 36-delete_count; i++){
+
+			//if number_count[i].first[count] > max
+			if (number_count[i].first[count] > max){
+				max = number_count[i].first[count];
+				max_count = i;
+			}
+
+
+			//if number_count[i].first[count] == max
+			else if ((number_count[i].first[count] == max) && ( number_count[i].first[count] != 0)){
+				int j = count;
+
+				while (j >= 0){
+					if (number_count[i].first[j] > number_count[max_count].first[j]){
+						max_count = i;
+						break;
+					}
+
+					else
+						j--;
+
+				}
+
+			}
+		//End of elif
+
+
+		}
+
+		if (max == 0)
+			count--;
+
+
+		else{
+			//비교가 끝난 요소 삭제!
+			chage_list.push_back(number_count[max_count].second);
+			number_count.erase(number_count.begin() + max_count);
+			delete_count++;
+		}
+
+
+
+
+	}
+
+
+	//Handle remainder
+	vector<pair<vector<int>, int>>::iterator count_itr;
+
+	for (count_itr = number_count.begin(); count_itr != number_count.end(); count_itr++)
+		chage_list.push_back((*count_itr).second);
+
+
+
+
+
 }
