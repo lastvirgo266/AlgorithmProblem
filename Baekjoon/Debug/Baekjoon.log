@@ -1,4 +1,4 @@
-﻿빌드 시작: 2018-04-24 PM 8:55:39
+﻿빌드 시작: 2018-04-27 PM 7:36:16
      1>2 노드의 "C:\Users\승진\Documents\GitHub\visual_studio\Baekjoon\Baekjoon\Baekjoon.vcxproj" 프로젝트(Build 대상)입니다.
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt 11723.cpp
@@ -10,4 +10,4 @@
 
 빌드했습니다.
 
-경과 시간: 00:00:10.12
+경과 시간: 00:00:10.26
