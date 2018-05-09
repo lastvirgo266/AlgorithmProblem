@@ -70,6 +70,9 @@ int main(void)
 			min = GetMin(min, GetRealDistance(number[i].second, number[i + 2].second));
 			min = GetMin(min, GetRealDistance(number[i].second, number[i + 3].second));
 
+			cout << min << endl;
+
+
 			if (i+1 >= number.size() - 3)
 			{
 				//When the number is last.
