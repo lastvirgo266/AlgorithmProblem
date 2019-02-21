@@ -1,20 +1,10 @@
-﻿  1707.cpp
-c:\users\lavi\documents\project\etc\baekjoon\baekjoon\1707.cpp(68): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\lavi\documents\project\etc\baekjoon\baekjoon\1707.cpp(77): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\lavi\documents\project\etc\baekjoon\baekjoon\1707.cpp(99): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\lavi\documents\project\etc\baekjoon\baekjoon\1707.cpp(127): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\lavi\documents\project\etc\baekjoon\baekjoon\1707.cpp(161): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\lavi\documents\project\etc\baekjoon\baekjoon\1707.cpp(169): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\lavi\documents\project\etc\baekjoon\baekjoon\1707.cpp(177): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\lavi\documents\project\etc\baekjoon\baekjoon\1707.cpp(213): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-c:\users\lavi\documents\project\etc\baekjoon\baekjoon\1707.cpp(20): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+﻿  1199.cpp
+c:\users\lavi\documents\project\etc\baekjoon\baekjoon\1199.cpp(48): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\lavi\documents\project\etc\baekjoon\baekjoon\1199.cpp(107): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\lavi\documents\project\etc\baekjoon\baekjoon\1199.cpp(25): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17134.0\ucrt\stdio.h(1274): note: 'scanf' 선언을 참조하십시오.
-c:\users\lavi\documents\project\etc\baekjoon\baekjoon\1707.cpp(27): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+c:\users\lavi\documents\project\etc\baekjoon\baekjoon\1199.cpp(37): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.17134.0\ucrt\stdio.h(1274): note: 'scanf' 선언을 참조하십시오.
-c:\users\lavi\documents\project\etc\baekjoon\baekjoon\1707.cpp(28): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17134.0\ucrt\stdio.h(1274): note: 'scanf' 선언을 참조하십시오.
-c:\users\lavi\documents\project\etc\baekjoon\baekjoon\1707.cpp(42): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17134.0\ucrt\stdio.h(1274): note: 'scanf' 선언을 참조하십시오.
-c:\users\lavi\documents\project\etc\baekjoon\baekjoon\1707.cpp(43): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.17134.0\ucrt\stdio.h(1274): note: 'scanf' 선언을 참조하십시오.
+c:\users\lavi\documents\project\etc\baekjoon\baekjoon\1199.cpp(17): warning C4101: 'now_vertex' :참조되지 않은 지역 변수입니다.
+c:\users\lavi\documents\project\etc\baekjoon\baekjoon\1199.cpp(16): warning C4101: 'prev_vertex' :참조되지 않은 지역 변수입니다.
   Baekjoon.vcxproj -> C:\Users\LaVi\Documents\Project\etc\Baekjoon\Debug\Baekjoon.exe
