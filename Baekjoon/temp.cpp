@@ -1,64 +1,88 @@
-#include <stdio.h>
-#include <memory.h>
-#include <algorithm>
-#include <vector>
+#include<iostream>
+#include<vector>
+#include<string>
 using namespace std;
 
-typedef vector<int> vi;
-const int v_ = 1e4 + 1;
 
-int v, e, cnt, pos, stk[v_];
-bool vst[v_];
-vi gp1[v_], gp2[v_];
-vector<vi> res;
 
-void dfs(int now) {
-	vst[now] = true;
-	for (int nxt : gp1[now]) if (!vst[nxt])
-		dfs(nxt);
-	stk[pos++] = now;
-	//printf("%d ",now); //TEST
+int main(){
+    string plain;
+    string find;
+    vector<char> next_save;
+    int correct_index = 0;
+    int next_correct_index = 0;
+    int next_start_index = 0;
+    int all_correct = 0;
+    vector< int > ans;
+
+    //공백포함 문자열 입력받기
+    getline(cin,plain); 
+    getline(cin,find);
+    for(int i=0; i<plain.size(); /* */){
+
+        //plain과 find과 일치할때
+        if(plain[i] == find[correct_index]){
+            
+            
+            //찾고있는 과정중에 다음에 어떤 i 값이 들어가야하는지 수행하는 코드
+            if(plain[i] == find[next_correct_index] && correct_index != 0){
+                next_start_index = i-next_correct_index;
+                next_correct_index++;
+               // cout<<"next OK : "<<next_start_index<<endl;//TEST
+            } else{
+                //cout<<"NEXT : "<<next_start_index<<endl; //TEST
+                next_correct_index = 0;
+            }
+
+
+            //모든것이 일치했을때
+            if(correct_index == find.size()-1){
+                ans.push_back(i-find.size()+2);
+                all_correct++;
+
+                //i 의 값을 정해야함
+                if(find[next_correct_index] == plain[i]) i = next_start_index;
+                else i++;
+                //cout<<i<<endl; //TEST
+
+                correct_index = 0;
+                next_correct_index = 0;
+                continue;
+            }
+
+            i++;
+            correct_index++;
+        }
+
+
+        //중간에 안맞을 경우
+        else{
+            //cout<<"Prev :  "<<i<<" "<<next_correct_index<<endl; //TEST
+            if(find[next_correct_index] == plain[i]) i = next_start_index;
+            else i++;
+            //cout<<i<<endl; //TEST
+            correct_index = 0;
+            next_correct_index = 0;
+        }
+
+
+    }
+
+
+    cout<<all_correct<<endl;
+    for(int i=0; i<ans.size(); i++){
+        if(i == ans.size()-1){
+            cout<<ans[i];
+        }
+        else
+            cout<<ans[i]<<" ";
+    }
+
+
+    return 0;
+
 }
 
-void scc(int now) {
-	vst[now] = true;
-	//printf("now : %d\n",now);
-	res[cnt].push_back(now);
-	for (int nxt : gp2[now]) if (!vst[nxt])
-		scc(nxt);
 
-}
-
-int main() {
-	int i;
-	
-	scanf("%d %d", &v, &e);
-	for (i = 1; i <= e; i++) {
-		int a, b;
-		scanf("%d %d", &a, &b);
-		gp1[a].push_back(b);
-		gp2[b].push_back(a);
-	}
-
-	for (i = 1; i <= v; i++)
-		if (!vst[i]) dfs(i);
-	memset(vst, 0, sizeof(vst));
-	while (pos) {
-		int top = stk[--pos];
-		if (vst[top]) continue;
-		res.push_back(vi());
-		scc(top);
-		cnt++;
-	}
-
-	for (i = 0; i < cnt; i++) sort(res[i].begin(), res[i].end());
-	sort(res.begin(), res.end(), [](const vi &i, const vi &j) { return i[0] < j[0]; });
-	
-	printf("%d\n", res.size());
-	for (auto &i : res) {
-		for (auto j : i) printf("%d ", j);
-		puts("-1");
-	}
-
-	return 0;
-}
+// AAABAAAABAAAA
+// AAABAAAA
