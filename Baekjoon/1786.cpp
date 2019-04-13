@@ -9,7 +9,7 @@ vector<int> getPi(string p){
     int j = 0;
     vector<int> pi(m,0);
 
-    for(int i=1; i<m; i++){
+    for(int i=1; i<m; i++){ //i : length of sub string
         while(j > 0 && p[i] != p[j])
             j = pi[j-1];
 

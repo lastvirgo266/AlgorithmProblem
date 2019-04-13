@@ -44,9 +44,11 @@ int main()
 
 	//Big(O) : n
 	//Find max distance
-	for (int i = 1; i < sorted.size(); i++)
-		if (sorted[i].second - i > max_value)
+	for (int i = 1; i < sorted.size(); i++){
+		if (sorted[i].second - i > max_value){
 			max_value = abs(i - sorted[i].second);
+		}
+	}
 
 
 	//Total Big(O) : log2n + n = n
