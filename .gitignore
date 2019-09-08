@@ -1,9 +1,10 @@
 # VSCODE configure
 
-.vs*/
+.vscode/
 Baekjoon/Baekjoon.vcxproj.*
 Baekjoon/*.exe
 Baekjoon/Debug/
+exit
 
 
 # Visual Studio configure
