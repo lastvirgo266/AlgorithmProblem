@@ -3,6 +3,7 @@
 .vs*/
 Baekjoon/Baekjoon.vcxproj.*
 Baekjoon/*.exe
+Baekjoon/Debug/
 
 
 # Visual Studio configure
