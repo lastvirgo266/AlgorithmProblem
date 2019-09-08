@@ -1,1 +1,16 @@
+# VSCODE configure
+
+.vs*/
+Baekjoon/Baekjoon.vcxproj.*
+Bakejoon/*.exe
+
+
+# Visual Studio configure
+Baekjoon.*
+
+
+# Debug
+
+Debug/
+
 
