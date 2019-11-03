@@ -83,9 +83,6 @@ Point MoveBead(Point point, int x_weight, int y_weight){
 	}
 
 
-	printf("%c \n",board[point.r_y+ y_weight][point.r_x + x_weight]);
-
-
 	//Not set
 	while(board[point.b_y+ y_weight][point.b_x + x_weight] == '.' || 
 		  board[point.r_y+ y_weight][point.r_x + x_weight] == '.'){
@@ -161,7 +158,7 @@ int main(){
 
 	for(int i=0; i<y; i++){
 		fflush(stdin);
-		
+
 		for(int j=0; j<x; j++){
 			char temp;
 			scanf("%c", &temp);
@@ -212,7 +209,6 @@ int main(){
 			Point temp;
 
 			temp = MoveBead(prev, x_weight[i], y_weight[i]);
-			printf("%d",temp.move_count);
 
 			if(temp.move_count > SUCCESS){
 				printf("%d",temp.move_count);
