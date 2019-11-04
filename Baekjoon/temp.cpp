@@ -283,6 +283,7 @@ int main(){
 	temp.b_y = 7;
 	temp.move_count = 0;
 
+    
 
     for(int i =0; i<4; i++){
         Point t;
