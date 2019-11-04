@@ -1,88 +1,295 @@
-#include<iostream>
-#include<vector>
-#include<string>
+#include <stdio.h>
+#include <queue>
+#include <stdlib.h>
+
+#define SUCCESS 333
+
 using namespace std;
 
+// #Pair
+
+char board[100][100] = {};
+int x_weight[4] = {1,-1,0,0};
+int y_weight[4] = {0,0,1,-1};
+int visited[100][100][2]= {{{0, }, } ,};
 
 
-int main(){
-    string plain;
-    string find;
-    vector<char> next_save;
-    int correct_index = 0;
-    int next_correct_index = 0;
-    int next_start_index = 0;
-    int all_correct = 0;
-    vector< int > ans;
+//Test Module
 
-    //공백포함 문자열 입력받기
-    getline(cin,plain); 
-    getline(cin,find);
-    for(int i=0; i<plain.size(); /* */){
+void PrintBoard(){
+	for(int i = 0; i<9; i++){
+		for(int j= 0; j<8; j++){
+			if(board[i][j] != 0)
+				printf("%c",board[i][j]);
+		}
 
-        //plain과 find과 일치할때
-        if(plain[i] == find[correct_index]){
-            
-            
-            //찾고있는 과정중에 다음에 어떤 i 값이 들어가야하는지 수행하는 코드
-            if(plain[i] == find[next_correct_index] && correct_index != 0){
-                next_start_index = i-next_correct_index;
-                next_correct_index++;
-               // cout<<"next OK : "<<next_start_index<<endl;//TEST
-            } else{
-                //cout<<"NEXT : "<<next_start_index<<endl; //TEST
-                next_correct_index = 0;
-            }
+		printf("\n");
+
+	}
+
+	printf("\n");
+
+	
+}
+	
 
 
-            //모든것이 일치했을때
-            if(correct_index == find.size()-1){
-                ans.push_back(i-find.size()+2);
-                all_correct++;
 
-                //i 의 값을 정해야함
-                if(find[next_correct_index] == plain[i]) i = next_start_index;
-                else i++;
-                //cout<<i<<endl; //TEST
+struct Point{
+	int r_x;
+	int r_y;
+	
+	int b_x;
+	int b_y;
 
-                correct_index = 0;
-                next_correct_index = 0;
-                continue;
-            }
+    int move_count;
+};
 
-            i++;
-            correct_index++;
-        }
+Point MoveBead(Point point, int x_weight, int y_weight){
 
+	//Check visited
+	if( (visited[point.r_y][point.r_x][0] == 1) && (visited[point.b_y][point.b_x][1] == 1)){
+		point.move_count = -1;
+		return point;
+	}
 
-        //중간에 안맞을 경우
-        else{
-            //cout<<"Prev :  "<<i<<" "<<next_correct_index<<endl; //TEST
-            if(find[next_correct_index] == plain[i]) i = next_start_index;
-            else i++;
-            //cout<<i<<endl; //TEST
-            correct_index = 0;
-            next_correct_index = 0;
-        }
+	//moving more than 10, it is not executed
+	if(point.move_count == 10){
+		point.move_count = -1;
+		return point;
+	}
 
 
-    }
+	board[point.r_y][point.r_x] = 'R';
+	board[point.b_y][point.b_x] = 'B';
 
 
-    cout<<all_correct<<endl;
-    for(int i=0; i<ans.size(); i++){
-        if(i == ans.size()-1){
-            cout<<ans[i];
-        }
-        else
-            cout<<ans[i]<<" ";
-    }
+	//Test
+	//PrintBoard();
 
 
-    return 0;
+	//If set
+	if(abs(point.r_x - point.b_x) == abs(x_weight) && 
+	   abs(point.r_y - point.b_y) == abs(y_weight)){
+
+		//Moving
+		if(point.r_x - point.b_x == x_weight || point.r_y - point.b_y == -(y_weight)){
+			while(board[point.r_y+ y_weight][point.r_x + x_weight] == '.'||
+			      board[point.b_y + y_weight][point.b_x + x_weight] == '.'){
+
+
+				if(board[point.r_y+ y_weight][point.r_x + x_weight] == '.' ){
+					board[point.r_y][point.r_x] = '.';
+					point.r_x += x_weight;
+					point.r_y += y_weight;
+					board[point.r_y][point.r_x] = 'R';
+				}
+
+
+				if(board[point.b_y+ y_weight][point.b_x + x_weight] == '.'){
+					board[point.b_y][point.b_x] = '.';
+					point.b_x += x_weight;
+					point.b_y += y_weight;
+					board[point.b_y][point.b_x] = 'B';
+				}
+
+				//Test
+				//PrintBoard();
+			}
+
+
+		}
+
+		//Moving
+		else{
+			while(board[point.b_y+ y_weight][point.b_x + x_weight] == '.'||
+				  board[point.r_y + y_weight][point.r_x + x_weight] == '.'){
+
+
+				if(board[point.b_y+ y_weight][point.b_x + x_weight] == '.' ){
+					board[point.b_y][point.b_x] = '.';
+					point.b_x += x_weight;
+					point.b_y += y_weight;
+					board[point.b_y][point.b_x] = 'B';
+				}
+
+
+				if(board[point.r_y+ y_weight][point.r_x + x_weight] == '.'){
+					board[point.r_y][point.r_x] = '.';
+					point.r_x += x_weight;
+					point.r_y += y_weight;
+					board[point.r_y][point.r_x] = 'R';
+				}
+
+				//Test
+				//PrintBoard();
+			}
+		}
+
+
+
+		board[point.r_y][point.r_x] = '.';
+		board[point.b_y][point.b_x] = '.';
+
+
+		if(board[point.r_y+ y_weight][point.r_x + x_weight] == 'O'){
+			if(abs(point.r_x - point.b_x) == abs(x_weight) && 
+			abs(point.r_y - point.b_y) == abs(y_weight)){
+				point.move_count = -1;
+				return point;
+			}
+
+			else{
+				point.move_count++;
+				point.move_count += SUCCESS;
+				return point;
+			}
+		}
+
+
+		if(board[point.b_y+ y_weight][point.b_x + x_weight] == 'O'){
+			point.move_count = -1;
+			return point;
+		}
+
+
+		point.move_count++;
+		return point;
+		
+
+	}
+
+
+	//Not set
+	while(board[point.b_y+ y_weight][point.b_x + x_weight] == '.' || 
+		  board[point.r_y+ y_weight][point.r_x + x_weight] == '.'){
+
+		//Test
+		//PrintBoard();
+
+
+		if(board[point.r_y+ y_weight][point.r_x + x_weight] == '.' ){
+			board[point.r_y][point.r_x] = '.';
+			point.r_x += x_weight;
+			point.r_y += y_weight;
+			board[point.r_y][point.r_x] = 'R';
+		}
+
+
+		if(board[point.b_y+ y_weight][point.b_x + x_weight] == '.'){
+			board[point.b_y][point.b_x] = '.';
+			point.b_x += x_weight;
+			point.b_y += y_weight;
+			board[point.b_y][point.b_x] = 'B';
+		}
+
+	}
+
+
+	//Test
+	//PrintBoard();
+	printf("%d\n",point.move_count);
+
+	board[point.r_y][point.r_x] = '.';
+	board[point.b_y][point.b_x] = '.';
+
+
+	if(board[point.b_y+ y_weight][point.b_x + x_weight] == 'O'){
+		//Test
+		//PrintBoard();
+		point.move_count = -1;
+		return point;
+	}
+
+
+	if(board[point.r_y+ y_weight][point.r_x + x_weight] == 'O'){
+
+		if(abs(point.r_x - point.b_x) == abs(x_weight) && 
+	   	   abs(point.r_y - point.b_y) == abs(y_weight)){
+			point.move_count = -1;
+			return point;
+		}
+
+		else{
+		point.move_count++;
+		point.move_count += SUCCESS;
+		return point;
+		}
+	}
+
+
+
+	point.move_count++;
+	return point;
 
 }
 
 
-// AAABAAAABAAAA
-// AAABAAAA
+
+int main(){
+
+	for(int i=0; i<100; i++)
+		for(int j=0; j<100; j++)
+			for(int k=0; k<2; k++)
+				visited[i][j][k] = 0;
+
+
+	queue<Point> queue;
+
+	int y;
+	int x;
+
+	int start_r_x;
+	int start_r_y;
+
+	int start_b_x;
+	int start_b_y;
+
+	scanf("%d", &y);
+	scanf("%d", &x);
+
+	fflush(stdin);
+
+
+	for(int i=0; i<y; i++){
+
+		for(int j=0; j<x; j++){
+			char temp;
+			while((temp = getchar()) == '\n' );
+			board[i][j] = temp;
+
+			if(temp == 'R'){
+				start_r_x = j;
+				start_r_y = i;
+				board[i][j] = '.';
+			}
+
+			else if(temp == 'B'){
+				start_b_x = j;
+				start_b_y = i;
+				board[i][j] = '.';
+			}
+
+		}
+
+	}
+
+
+	Point temp;
+	temp.r_x = 4;
+	temp.r_y = 1;
+
+	temp.b_x = 3;
+	temp.b_y = 7;
+	temp.move_count = 0;
+
+
+    for(int i =0; i<4; i++){
+        Point t;
+        t = MoveBead(temp, x_weight[i], y_weight[i]);
+        printf("%d\n",t.move_count);
+    }
+
+	return 0;
+    
+}
