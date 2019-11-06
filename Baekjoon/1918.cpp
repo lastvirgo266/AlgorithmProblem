@@ -4,7 +4,7 @@ using namespace std;
 
 
 void change(char *a, stack<char> stack){
-
+    
 
 
 

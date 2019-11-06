@@ -1,323 +1,211 @@
-#include <stdio.h>
-#include <queue>
-#include <stdlib.h>
-
-#define SUCCESS 333
-
+#include<stdio.h>
+#include<stdlib.h>
+#include<vector>
+#include<stack>
 using namespace std;
 
-// #Pair
 
-char board[100][100] = {};
-int x_weight[4] = {1,-1,0,0};
-int y_weight[4] = {0,0,1,-1};
-int visited[100][100][100][100] = {0,};
+int board[21][21];
+int total_max = -1;
+int x_direction[4] = {-1,1,0,0};
+int y_direction[4] = {0,0,-1,1};
 
-
-//Test Module
-
-void PrintBoard(){
-	for(int i = 0; i<9; i++){
-		for(int j= 0; j<8; j++){
-			if(board[i][j] != 0)
-				printf("%c",board[i][j]);
-		}
-
-		printf("\n");
-
-	}
-
-	printf("\n");
-
-	
+//----Test Module START---//
+void BoardPrint(vector< vector<int> > map){
+    for(int i=0; i<map.size(); i++){
+        for(int j=0; j<map.size(); j++)
+            printf("%d ",map[i][j]);
+        printf("\n");
+    }
+    printf("\n\n");
 }
-	
+//----Test Module END ---//
 
 
+int SearchMax(vector< vector<int> > map){
+    int max = -1;
+    int temp =0;
 
-struct Point{
-	int r_x;
-	int r_y;
-	
-	int b_x;
-	int b_y;
+    for(int i=0; i<map.size(); i++){
+        for(int j=0; j<map.size(); j++){
+            temp = map[i][j];
+            max = max > temp ? max : temp;
+        }
+    }
 
-    int move_count;
-};
-
-Point MoveBead(Point point, int x_weight, int y_weight){
-
-	//Check visited
-	if( visited[point.r_y][point.r_x][point.b_y][point.b_x] == 1){
-		point.move_count = -1;
-		return point;
-	}
-
-	//moving more than 10, it is not executed
-	if(point.move_count == 10){
-		point.move_count = -1;
-		return point;
-	}
-
-
-	board[point.r_y][point.r_x] = 'R';
-	board[point.b_y][point.b_x] = 'B';
-
-
-	//Test
-	//PrintBoard();
-
-
-	//If set
-	if(abs(point.r_x - point.b_x) == abs(x_weight) && 
-	   abs(point.r_y - point.b_y) == abs(y_weight)){
-
-		//Moving
-		if((point.r_x - point.b_x == -1 && x_weight == -1) || 
-			(point.r_y - point.b_y == 1 && y_weight == 1)){
-			while(board[point.r_y+ y_weight][point.r_x + x_weight] == '.'||
-			      board[point.b_y + y_weight][point.b_x + x_weight] == '.'){
-
-
-				if(board[point.r_y+ y_weight][point.r_x + x_weight] == '.' ){
-					board[point.r_y][point.r_x] = '.';
-					point.r_x += x_weight;
-					point.r_y += y_weight;
-					board[point.r_y][point.r_x] = 'R';
-				}
-
-
-				if(board[point.b_y+ y_weight][point.b_x + x_weight] == '.'){
-					board[point.b_y][point.b_x] = '.';
-					point.b_x += x_weight;
-					point.b_y += y_weight;
-					board[point.b_y][point.b_x] = 'B';
-				}
-
-				//Test
-				//PrintBoard();
-			}
-
-
-		}
-
-		//Moving
-		else{
-			while(board[point.b_y+ y_weight][point.b_x + x_weight] == '.'||
-				  board[point.r_y + y_weight][point.r_x + x_weight] == '.'){
-
-
-				if(board[point.b_y+ y_weight][point.b_x + x_weight] == '.' ){
-					board[point.b_y][point.b_x] = '.';
-					point.b_x += x_weight;
-					point.b_y += y_weight;
-					board[point.b_y][point.b_x] = 'B';
-				}
-
-
-				if(board[point.r_y+ y_weight][point.r_x + x_weight] == '.'){
-					board[point.r_y][point.r_x] = '.';
-					point.r_x += x_weight;
-					point.r_y += y_weight;
-					board[point.r_y][point.r_x] = 'R';
-				}
-
-				//Test
-				//PrintBoard();
-			}
-		}
-
-
-
-		board[point.r_y][point.r_x] = '.';
-		board[point.b_y][point.b_x] = '.';
-
-		if(board[point.b_y+ y_weight][point.b_x + x_weight] == 'O'){
-			point.move_count = -1;
-			return point;
-		}
-
-		if(board[point.r_y+ y_weight][point.r_x + x_weight] == 'O'){
-			if(abs(point.r_x - point.b_x) == abs(x_weight) && 
-			abs(point.r_y - point.b_y) == abs(y_weight)){
-				point.move_count = -1;
-				return point;
-			}
-
-			else{
-				point.move_count++;
-				point.move_count += SUCCESS;
-				return point;
-			}
-		}
-
-
-
-
-		point.move_count++;
-		return point;
-		
-
-	}
-
-
-	//Not set
-	while(board[point.b_y+ y_weight][point.b_x + x_weight] == '.' || 
-		  board[point.r_y+ y_weight][point.r_x + x_weight] == '.'){
-
-		//Test
-		//PrintBoard();
-
-
-		if(board[point.r_y+ y_weight][point.r_x + x_weight] == '.' ){
-			board[point.r_y][point.r_x] = '.';
-			point.r_x += x_weight;
-			point.r_y += y_weight;
-			board[point.r_y][point.r_x] = 'R';
-		}
-
-
-		if(board[point.b_y+ y_weight][point.b_x + x_weight] == '.'){
-			board[point.b_y][point.b_x] = '.';
-			point.b_x += x_weight;
-			point.b_y += y_weight;
-			board[point.b_y][point.b_x] = 'B';
-		}
-
-	}
-
-
-	//Test
-	//PrintBoard();
-	//printf("%d\n",point.move_count);
-
-	board[point.r_y][point.r_x] = '.';
-	board[point.b_y][point.b_x] = '.';
-
-
-	if(board[point.b_y+ y_weight][point.b_x + x_weight] == 'O'){
-		//Test
-		//PrintBoard();
-		point.move_count = -1;
-		return point;
-	}
-
-
-	if(board[point.r_y+ y_weight][point.r_x + x_weight] == 'O'){
-
-		if(abs(point.r_x - point.b_x) == abs(x_weight) && 
-	   	   abs(point.r_y - point.b_y) == abs(y_weight)){
-			point.move_count = -1;
-			return point;
-		}
-
-		else{
-		point.move_count++;
-		point.move_count += SUCCESS;
-		return point;
-		}
-	}
-
-
-
-	point.move_count++;
-	return point;
-
+    return max;
 }
 
+
+vector< vector<int> > solve(vector< vector<int> > map, int x_direction, int y_direction){
+
+    //Test
+    //BoardPrint(map);
+
+    int max = 0;
+
+    int start_y = 0;
+    int start_x = 0;
+
+    int end_y = 0;
+    int end_x = 0;
+    
+    // x -axis move
+    if(y_direction == 0){
+
+        start_x = x_direction > 0 ? map.size()-1 : 0;
+        end_x = start_x == 0 ? map.size() : -1;
+        end_y = map.size();
+        start_y = 0;
+
+        for(int i= start_y; i != end_y; i++){
+            vector<int> arr; 
+            for(int j = start_x; j != end_x; j -= x_direction){
+                if(map[i][j] != 0){
+                    arr.push_back(map[i][j]);
+                    map[i][j] = 0;
+                }
+            }
+
+            if(arr.size() != 0 ){
+                //Test
+                vector<int> new_arr;
+                for(int i=0; i< arr.size()-1; i++){
+                    if(arr[i] == arr[i+1]){
+                        arr[i+1] += arr[i];
+                        arr[i] = 0;
+                        i++;
+
+                    }
+
+                    //Test
+                }
+
+                for(int i=0; i<arr.size(); i++){
+                    if(arr[i] != 0)
+                        new_arr.push_back(arr[i]);
+                }
+
+                //int j = (end_x - (x_direction)) - (new_arr.size()*(x_direction)-x_direction);
+                int j = start_x;
+
+
+                for(int count = 0; count < new_arr.size(); j -= x_direction, count++){
+                    map[i][j] = new_arr[count];
+                }
+            }
+        }
+
+
+    }
+    
+    // y - axis move
+    else{
+
+        start_x = 0;
+        end_x = map.size();
+        start_y = y_direction > 0 ? map.size()-1 : 0;
+        end_y = start_y == 0 ? map.size() : -1;
+
+        for(int j = start_x; j != end_x; j++){
+            vector<int> arr;
+            for(int i = start_y; i != end_y; i -= y_direction){
+
+                if(map[i][j] != 0){
+                     arr.push_back(map[i][j]);
+                     map[i][j] = 0;
+                }
+            }
+
+            if(arr.size() != 0){
+                vector<int> new_arr;
+                for(int i=0; i< arr.size()-1; i++){
+                    if(arr[i] == arr[i+1]){
+                        arr[i+1] += arr[i];
+                        arr[i] = 0;
+                        i++;
+                    }
+
+                }
+
+                for(int i=0; i<arr.size(); i++){
+                    if(arr[i] != 0)
+                        new_arr.push_back(arr[i]);
+                }
+
+                //int i = (end_y - (y_direction)) - (new_arr.size()*(y_direction)-y_direction);
+                int i = start_y;
+
+                for(int count = 0; count<new_arr.size(); i -= y_direction, count++){
+                    map[i][j] = new_arr[count];
+                }
+            }
+        }
+    }
+
+
+    max = SearchMax(map);
+
+    total_max = total_max > max ? total_max : max;
+
+    //Test
+    //BoardPrint(map);
+    //_sleep(3);
+
+    return map;
+
+}
 
 
 int main(){
+    //Init
+    int number;
+    vector< vector<int> > map;
+    stack< vector< vector<int> > > stack_map;
+    stack< int > stack_count;
 
 
-	queue<Point> queue;
+    scanf("%d",&number);
+    map.resize(number);
 
-	int y;
-	int x;
+    for(int i=0; i<number; i++){
+        map[i].resize(number);
+        for(int j=0; j<number; j++){
+            int temp;
+            scanf("%d",&temp);
+            map[i][j] = temp;
+        }
+    }
 
-	int start_r_x;
-	int start_r_y;
-
-	int start_b_x;
-	int start_b_y;
-
-	scanf("%d", &y);
-	scanf("%d", &x);
-
-	fflush(stdin);
-
-
-	for(int i=0; i<y; i++){
-
-		for(int j=0; j<x; j++){
-			char temp;
-			while((temp = getchar()) == '\n' );
-			board[i][j] = temp;
-
-			if(temp == 'R'){
-				start_r_x = j;
-				start_r_y = i;
-				board[i][j] = '.';
-			}
-
-			else if(temp == 'B'){
-				start_b_x = j;
-				start_b_y = i;
-				board[i][j] = '.';
-			}
-
-		}
-
-	}
+    stack_map.push(map);
+    stack_count.push(0);
 
 
-	Point temp;
-	temp.r_x = start_r_x;
-	temp.r_y = start_r_y;
+    while(!stack_map.empty()){
+        vector< vector<int> > map = stack_map.top();
+        int count= stack_count.top();
 
-	temp.b_x = start_b_x;
-	temp.b_y = start_b_y;
-	temp.move_count = 0;
+        stack_map.pop();
+        stack_count.pop();
 
-	queue.push(temp);
+        //Test Count
+        if(count < 5){
+            for(int i=0; i<4; i++){
+                vector< vector<int> > temp_map = solve(map, x_direction[i], y_direction[i]);
+                stack_map.push(temp_map);
+                stack_count.push(count+1);
+            }
 
-
-	while(!queue.empty()){
-		Point prev = queue.front();
-		queue.pop();
-
-		if(prev.r_y == 1 && prev.r_x == 4 && prev.b_y == 7 && prev.b_x == 3){
-			printf("INPUT IN\n");
-		}
-
-		for(int i=0; i<4; i++){
-			Point temp;
-
-			temp = MoveBead(prev, x_weight[i], y_weight[i]);
-
-			if(temp.move_count >= SUCCESS){
-				printf("%d",temp.move_count-SUCCESS);
-				return 0;
-			}
-
-			else if(temp.move_count > 0){
-				queue.push(temp);
-			}
-
-		}
-
-		//Paring
-		visited[prev.r_y][prev.r_x][prev.b_y][prev.b_x] = 1;
+        }
+        
 
 
+    }
 
-
-
-
-	}
-
-    printf("-1");
-
-	return 0;
+    printf("%d",total_max);
     
+    //Test
+
+    return 0;
+
 }
