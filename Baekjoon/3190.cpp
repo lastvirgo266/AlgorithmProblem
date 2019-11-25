@@ -3,13 +3,13 @@
 #define APPLE 3
 #define Y 0
 #define X 1
-#define DIRECTION 2
-#define WEIGHT 3
+
 
 int board[100][100] ={0,};
 //int direction_board[100][100] = {0,};
-int snake[100][5]= {0,};
+int snake[100][2]= {0,};
 int snake_head = 0;
+int snake_head_directoin = 0;
 int max_X = 0;
 int max_Y = 0;
 int time = 0;
@@ -54,14 +54,6 @@ void BoardReset(int *snake)
     board[snake[Y]][snake[X]] = 0;
 }
 
-void SnakeInit()
-{
-    for(int i = snake_head; i >=0; i--)
-    {
-        snake[i][DIRECTION] = X;
-        snake[i][WEIGHT] = 1;
-    }
-}
 
 
 int MovingSnake(int direction, int count)
@@ -70,38 +62,37 @@ int MovingSnake(int direction, int count)
     int y_weight = 0;
 
     if(direction == 'D' ){
-        if (snake[snake_head][DIRECTION] == Y){
+        if (snake_head_directoin == Y){
             x_weight = -1;
-            snake[snake_head][DIRECTION] = X;
+            snake_head_directoin = X;
         }
         else{
             y_weight = -1;
-            snake[snake_head][DIRECTION] = Y;
+            snake_head_directoin = Y;
         }
     }
 
     else{
-        if (snake[snake_head][DIRECTION] == Y){
+        if (snake_head_directoin == Y){
             x_weight = 1;
-            snake[snake_head][DIRECTION] = X;
+            snake_head_directoin = X;
         }
         else{
             y_weight = 1;
-            snake[snake_head][DIRECTION] = X;
+            snake_head_directoin = X;
         }
     }
 
-
-    
-    snake[snake_head][WEIGHT] = x_weight + y_weight;
-
 //여기에 카운트로 몇번 돌릴지 넣어야함
     for(int k=0; k<count; k++){
+        
+        //time up
+        time++;
+
         int head_y = snake[snake_head][Y];
         int head_x = snake[snake_head][X];
 
 
-        time++;
 
         //End
         if(head_y > max_Y || head_x > max_X){
@@ -115,37 +106,39 @@ int MovingSnake(int direction, int count)
             snake_head++;
             snake[snake_head][Y] = head_y+ y_weight;
             snake[snake_head][X] = head_x + x_weight;
-            snake[snake_head][DIRECTION] = snake[snake_head-1][DIRECTION];
-            snake[snake_head][WEIGHT] = snake[snake_head-1][WEIGHT];
 
             BoardMarking(snake[snake_head]);
             continue;
         }
 
-            BoardReset(snake[snake_head]);
-            snake[i][ snake[i][DIRECTION] ] += snake[i][WEIGHT];
-            BoardMarking(snake[i]);
+        //make head information
+        int front_Y = snake[snake_head][Y];
+        int front_X = snake[snake_head][X];
 
-    
+        //move head
+        BoardReset(snake[snake_head]);
+        snake[snake_head][Y] += y_weight;
+        snake[snake_head][X] += x_weight;
+        BoardMarking(snake[snake_head]);
 
-        for(int i= snake_head; i >=0; i--){
-            //기존에있던 가중치로 이동
 
+        for(int i= snake_head-1; i >=0; i--){
+
+            //make now information
+            int now_Y = snake[i][Y];
+            int now_X = snake[i][X];
+            
+            //load front information
+            snake[i][Y] = front_Y;
+            snake[i][X] = front_X;
+
+            //move to front
             BoardReset(snake[i]);
-            snake[i][ snake[i][DIRECTION] ] += snake[i][WEIGHT];
             BoardMarking(snake[i]);
 
-            if(snake[i+1][DIRECTION] != snake[i][DIRECTION] && i < snake_head){
-                snake[i][TURN_SIGNAL] = 1;
-            }
-
-
-            //턴 문제를 해결해야함
-            //앞의 오브젝트로부터 다이렉션을 업데이트함
-            if( i + 1 <= snake_head && snake[i+1][TURN_SIGNAL]  ){
-
-
-            }
+            //swap information
+            front_Y = now_Y;
+            front_X = now_X;
         
         }
     }
@@ -176,8 +169,6 @@ int main()
         scanf("%d %d",&y, &x);
         board[y][x] = APPLE;
     }
-
-    SnakeInit();
 
 
     int L;
