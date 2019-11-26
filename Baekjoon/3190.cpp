@@ -22,26 +22,17 @@ int time = 0;
 // --- test module ----//
 void PrintBoard()
 {
-    for(int i=0; i<100; i++)
+    for(int i=0; i<=max_X; i++)
     {
-        for(int j=0; j<100; j++)
+        for(int j=0; j<=max_Y; j++)
             printf("%d", board[i][j]);
+
+        printf("\n");
     }
 
     printf("\n");
 }
-
-// void PrintDirectionBoard()
-// {
-//     for(int i=0; i<100; i++)
-//     {
-//         for(int j=0; j<100; j++)
-//             printf("%d", direction_board[i][j]);
-//     }
-
-//     printf("\n");
-// }
-// --- test module END----//
+//----test module END----//
 
 void BoardMarking(int *snake)
 {
@@ -56,7 +47,7 @@ void BoardReset(int *snake)
 
 
 
-int MovingSnake(int direction, int count)
+int MovingSnake(int count, int direction)
 {
     int x_weight = 0;
     int y_weight = 0;
@@ -67,7 +58,7 @@ int MovingSnake(int direction, int count)
             snake_head_directoin = X;
         }
         else{
-            y_weight = -1;
+            y_weight = 1;
             snake_head_directoin = Y;
         }
     }
@@ -78,7 +69,7 @@ int MovingSnake(int direction, int count)
             snake_head_directoin = X;
         }
         else{
-            y_weight = 1;
+            y_weight = -1;
             snake_head_directoin = X;
         }
     }
@@ -93,9 +84,13 @@ int MovingSnake(int direction, int count)
         int head_x = snake[snake_head][X];
 
 
-
         //End
-        if(head_y > max_Y || head_x > max_X){
+        if(head_y+y_weight > max_Y || head_x+x_weight > max_X ||
+           head_y+y_weight < 0 || head_x+x_weight < 0){
+            return -1;
+        }
+
+        if(board[head_y+y_weight][head_x+x_weight] == 1){
             return -1;
         }
 
@@ -121,25 +116,31 @@ int MovingSnake(int direction, int count)
         snake[snake_head][X] += x_weight;
         BoardMarking(snake[snake_head]);
 
+        //Test
+        PrintBoard();
 
-        for(int i= snake_head-1; i >=0; i--){
 
-            //make now information
-            int now_Y = snake[i][Y];
-            int now_X = snake[i][X];
+
+        if(snake_head -1 >= 0){
+            for(int i = snake_head-1; i >=0; i--){
+
+                //make now information
+                int now_Y = snake[i][Y];
+                int now_X = snake[i][X];
+                
+                //load front information
+                snake[i][Y] = front_Y;
+                snake[i][X] = front_X;
+
+                //move to front
+                BoardReset(snake[i]);
+                BoardMarking(snake[i]);
+
+                //swap information
+                front_Y = now_Y;
+                front_X = now_X;
             
-            //load front information
-            snake[i][Y] = front_Y;
-            snake[i][X] = front_X;
-
-            //move to front
-            BoardReset(snake[i]);
-            BoardMarking(snake[i]);
-
-            //swap information
-            front_Y = now_Y;
-            front_X = now_X;
-        
+            }
         }
     }
 
@@ -152,12 +153,18 @@ int MovingSnake(int direction, int count)
 
 int main()
 {
-    int dircetion_list[100][2] = {0,};
+    int direction_list[100][2] = {0,};
     int N;
     scanf("%d",&N);
 
     max_X = N-1;
     max_Y = N-1;
+
+    snake_head = 0;
+    snake[snake_head][Y]=0;
+    snake[snake_head][X]=0;
+    snake_head_directoin = X;
+    BoardMarking(snake[snake_head]);
 
     int K;
     scanf("%d", &K);
@@ -178,8 +185,18 @@ int main()
         int count;
         char direction;
         scanf("%d %c",&count, &direction);
-        dircetion_list[i][0] = count;
-        dircetion_list[i][1] = direction;
+        direction_list[i][0] = count;
+        direction_list[i][1] = direction;
+    }
+
+    for(int i=0; i<L; i++){
+       int result =  MovingSnake(direction_list[i][0], direction_list[i][1]);
+       PrintBoard();
+    
+        if(result == -1){
+            printf("%d",time);
+            return 0;
+        }
     }
 
 
