@@ -1,1 +1,10 @@
-        PrintBoard();
+cubeRotate(2);
+cubeRotate(10);
+cubeRotate(5);
+cubeRotate(2);
+cubeRotate(10);
+cubeRotate(12);
+cubeRotate(4);
+    cubeRotate(4);
+    cubeRotate(3);
+cubeRotate(2);

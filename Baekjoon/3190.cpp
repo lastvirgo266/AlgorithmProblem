@@ -3,13 +3,17 @@
 #define APPLE 3
 #define Y 0
 #define X 1
-
+#define LEFT -1
+#define RIGHT 1
+#define UP 1
+#define DOWN -1
 
 int board[100][100] ={0,};
 //int direction_board[100][100] = {0,};
 int snake[100][2]= {0,};
 int snake_head = 0;
 int snake_head_directoin = 0;
+int snake_head_weight = 0;
 int max_X = 0;
 int max_Y = 0;
 int time = 0;
@@ -34,10 +38,14 @@ void PrintBoard()
 }
 //----test module END----//
 
+
+
 void BoardMarking(int *snake)
 {
     board[snake[Y]][snake[X]] = 1;
 }
+
+
 
 
 void BoardReset(int *snake)
@@ -54,23 +62,64 @@ int MovingSnake(int count, int direction)
 
     if(direction == 'D' ){
         if (snake_head_directoin == Y){
-            x_weight = -1;
-            snake_head_directoin = X;
+            if(snake_head_weight == UP){
+                x_weight = 1;
+                snake_head_directoin = X;
+                snake_head_weight = RIGHT;
+            }
+
+            else{
+                x_weight = -1;
+                snake_head_directoin = X;
+                snake_head_weight = LEFT;
+            }
+        
         }
         else{
-            y_weight = 1;
-            snake_head_directoin = Y;
+            if(snake_head_weight == LEFT){
+                y_weight = -1;
+                snake_head_directoin = Y;
+                snake_head_weight = DOWN;
+            }
+
+            else{
+                y_weight = 1;
+                snake_head_directoin = Y;
+                snake_head_weight = UP;
+            }
         }
     }
 
+
+
     else{
         if (snake_head_directoin == Y){
+            
+            if(snake_head_weight == UP){
+            x_weight = -1;
+            snake_head_directoin = X;
+            snake_head_weight = LEFT;
+            }
+
+            else{
             x_weight = 1;
             snake_head_directoin = X;
+            snake_head_weight = RIGHT;       
+            }
         }
+
         else{
-            y_weight = -1;
-            snake_head_directoin = X;
+            if(snake_head_weight == LEFT){
+                y_weight = 1;
+                snake_head_directoin = Y;
+                snake_head_weight = UP;
+            }
+
+            else{
+                y_weight = 1;
+                snake_head_directoin = Y;
+                snake_head_weight = DOWN;           
+            }
         }
     }
 
@@ -164,6 +213,7 @@ int main()
     snake[snake_head][Y]=0;
     snake[snake_head][X]=0;
     snake_head_directoin = X;
+    snake_head_weight = RIGHT;
     BoardMarking(snake[snake_head]);
 
     int K;
