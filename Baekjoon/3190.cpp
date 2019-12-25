@@ -5,8 +5,8 @@
 #define X 1
 #define LEFT -1
 #define RIGHT 1
-#define UP 1
-#define DOWN -1
+#define DOWN 1
+#define UP -1
 
 int board[100][100] ={0,};
 //int direction_board[100][100] = {0,};
@@ -26,6 +26,8 @@ int time = 0;
 // --- test module ----//
 void PrintBoard()
 {
+
+    printf("%d\n %d\n", snake_head_directoin, snake_head_weight);
     for(int i=0; i<=max_X; i++)
     {
         for(int j=0; j<=max_Y; j++)
@@ -75,17 +77,19 @@ int MovingSnake(int count, int direction)
             }
         
         }
+
+
         else{
             if(snake_head_weight == LEFT){
                 y_weight = -1;
                 snake_head_directoin = Y;
-                snake_head_weight = DOWN;
+                snake_head_weight = UP;
             }
 
             else{
                 y_weight = 1;
                 snake_head_directoin = Y;
-                snake_head_weight = UP;
+                snake_head_weight = DOWN;
             }
         }
     }
@@ -94,7 +98,7 @@ int MovingSnake(int count, int direction)
 
     else{
         if (snake_head_directoin == Y){
-            
+
             if(snake_head_weight == UP){
             x_weight = -1;
             snake_head_directoin = X;
@@ -112,13 +116,13 @@ int MovingSnake(int count, int direction)
             if(snake_head_weight == LEFT){
                 y_weight = 1;
                 snake_head_directoin = Y;
-                snake_head_weight = UP;
+                snake_head_weight = DOWN;
             }
 
             else{
-                y_weight = 1;
+                y_weight = -1;
                 snake_head_directoin = Y;
-                snake_head_weight = DOWN;           
+                snake_head_weight = UP;           
             }
         }
     }
