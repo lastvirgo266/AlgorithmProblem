@@ -71,9 +71,9 @@ int MovingSnake(int count, int direction)
             }
 
             else{
-                x_weight = -1;
+                x_weight = 1;
                 snake_head_directoin = X;
-                snake_head_weight = LEFT;
+                snake_head_weight = RIGHT;
             }
         
         }
@@ -127,7 +127,7 @@ int MovingSnake(int count, int direction)
         }
     }
 
-//여기에 카운트로 몇번 돌릴지 넣어야함
+    //여기에 카운트로 몇번 돌릴지 넣어야함
     for(int k=0; k<count; k++){
         
         //time up
