@@ -71,9 +71,9 @@ int MovingSnake(int count, int direction)
             }
 
             else{
-                x_weight = 1;
+                x_weight = -1;
                 snake_head_directoin = X;
-                snake_head_weight = RIGHT;
+                snake_head_weight = LEFT;
             }
         
         }
@@ -208,6 +208,7 @@ int main()
 {
     int direction_list[100][2] = {0,};
     int N;
+    int time_accumul = 0;
     scanf("%d",&N);
 
     max_X = N-1;
@@ -239,8 +240,9 @@ int main()
         int count;
         char direction;
         scanf("%d %c",&count, &direction);
-        direction_list[i][0] = count;
+        direction_list[i][0] = count - time_accumul;
         direction_list[i][1] = direction;
+        time_accumul += direction_list[i][0];
     }
 
     for(int i=0; i<L; i++){
