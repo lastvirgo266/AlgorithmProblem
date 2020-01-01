@@ -65,13 +65,13 @@ int MovingSnake(int count, int direction)
     if(direction == 'D' ){
         if (snake_head_directoin == Y){
             if(snake_head_weight == UP){
-                x_weight = 1;
+                x_weight = RIGHT;
                 snake_head_directoin = X;
                 snake_head_weight = RIGHT;
             }
 
             else{
-                x_weight = -1;
+                x_weight = LEFT;
                 snake_head_directoin = X;
                 snake_head_weight = LEFT;
             }
@@ -81,13 +81,13 @@ int MovingSnake(int count, int direction)
 
         else{
             if(snake_head_weight == LEFT){
-                y_weight = -1;
+                y_weight = UP;
                 snake_head_directoin = Y;
                 snake_head_weight = UP;
             }
 
             else{
-                y_weight = 1;
+                y_weight = DOWN;
                 snake_head_directoin = Y;
                 snake_head_weight = DOWN;
             }
@@ -100,13 +100,13 @@ int MovingSnake(int count, int direction)
         if (snake_head_directoin == Y){
 
             if(snake_head_weight == UP){
-            x_weight = -1;
+            x_weight = LEFT;
             snake_head_directoin = X;
             snake_head_weight = LEFT;
             }
 
             else{
-            x_weight = 1;
+            x_weight = RIGHT;
             snake_head_directoin = X;
             snake_head_weight = RIGHT;       
             }
@@ -114,18 +114,21 @@ int MovingSnake(int count, int direction)
 
         else{
             if(snake_head_weight == LEFT){
-                y_weight = 1;
+                y_weight = DOWN;
                 snake_head_directoin = Y;
                 snake_head_weight = DOWN;
             }
 
             else{
-                y_weight = -1;
+                y_weight = UP;
                 snake_head_directoin = Y;
                 snake_head_weight = UP;           
             }
         }
     }
+
+
+
 
     //여기에 카운트로 몇번 돌릴지 넣어야함
     for(int k=0; k<count; k++){
@@ -214,11 +217,12 @@ int main()
     max_X = N-1;
     max_Y = N-1;
 
+
     snake_head = 0;
     snake[snake_head][Y]=0;
     snake[snake_head][X]=0;
-    snake_head_directoin = X;
-    snake_head_weight = RIGHT;
+    snake_head_directoin = Y;
+    snake_head_weight = UP;
     BoardMarking(snake[snake_head]);
 
     int K;
@@ -229,6 +233,8 @@ int main()
         int y;
         int x;
         scanf("%d %d",&y, &x);
+        y -= 1;
+        x -= 1;
         board[y][x] = APPLE;
     }
 
