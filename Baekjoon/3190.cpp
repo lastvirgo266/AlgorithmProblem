@@ -62,6 +62,8 @@ int MovingSnake(int count, int direction)
     int x_weight = 0;
     int y_weight = 0;
 
+
+    //Change Direction
     if(direction == 'D' ){
         if (snake_head_directoin == Y){
             if(snake_head_weight == UP){
@@ -139,7 +141,11 @@ int MovingSnake(int count, int direction)
         int head_y = snake[snake_head][Y];
         int head_x = snake[snake_head][X];
 
+	
 
+
+
+    
         //End
         if(head_y+y_weight > max_Y || head_x+x_weight > max_X ||
            head_y+y_weight < 0 || head_x+x_weight < 0){
@@ -155,6 +161,7 @@ int MovingSnake(int count, int direction)
         if(board[head_y+y_weight][head_x+x_weight] == APPLE)
         {
             snake_head++;
+            board[head_y+y_weight][head_x + x_weight]  = 1;
             snake[snake_head][Y] = head_y+ y_weight;
             snake[snake_head][X] = head_x + x_weight;
 
@@ -219,15 +226,17 @@ int main()
 
 
     snake_head = 0;
-    snake[snake_head][Y]=0;
-    snake[snake_head][X]=0;
+    snake[snake_head][Y]=1;
+    snake[snake_head][X]=1;
     snake_head_directoin = Y;
-    snake_head_weight = UP;
+    snake_head_weight = DOWN;
     BoardMarking(snake[snake_head]);
 
     int K;
     scanf("%d", &K);
 
+
+    
     for(int i=0; i<K; i++)
     {
         int y;
@@ -241,15 +250,26 @@ int main()
 
     int L;
     scanf("%d", &L);
-    for(int i=0; i<L; i++)
+
+
+    //Start Reset
+    direction_list[0][0] = 0;
+    direction_list[0][1] = L;
+
+    for(int i=1; i<L; i++)
     {
         int count;
         char direction;
         scanf("%d %c",&count, &direction);
-        direction_list[i][0] = count - time_accumul;
+
+
+        direction_list[i-1][0] = count - time_accumul;
+
         direction_list[i][1] = direction;
-        time_accumul += direction_list[i][0];
+        time_accumul += count - time_accumul;
     }
+
+    direction_list[L-1][0] = 9999;
 
     for(int i=0; i<L; i++){
        int result =  MovingSnake(direction_list[i][0], direction_list[i][1]);
