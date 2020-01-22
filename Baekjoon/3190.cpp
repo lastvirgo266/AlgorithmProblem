@@ -9,7 +9,7 @@
 #define UP -1
 
 int board[100][100] ={0,};
-//int direction_board[100][100] = {0,};
+//int direction_board[100][100] = {{0,},};
 int snake[100][2]= {0,};
 int snake_head = 0;
 int snake_head_directoin = 0;
@@ -130,20 +130,18 @@ int MovingSnake(int count, int direction)
     }
 
 
-
+    
 
     //여기에 카운트로 몇번 돌릴지 넣어야함
     for(int k=0; k<count; k++){
-        
+
+
         //time up
         time++;
 
+
         int head_y = snake[snake_head][Y];
         int head_x = snake[snake_head][X];
-
-	
-
-
 
     
         //End
@@ -256,7 +254,7 @@ int main()
     direction_list[0][0] = 0;
     direction_list[0][1] = L;
 
-    for(int i=1; i<L; i++)
+    for(int i=1; i<L+1; i++)
     {
         int count;
         char direction;
