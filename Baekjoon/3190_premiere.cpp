@@ -182,8 +182,11 @@ int MovingSnake(int count, int direction)
 
 
 
-        if(snake_head -1 >= 0){
+        if(snake_head - 1 >= 0){
             for(int i = snake_head-1; i >=0; i--){
+                
+                //Delete now information
+                BoardReset(snake[i]);
 
                 //make now information
                 int now_Y = snake[i][Y];
@@ -194,7 +197,6 @@ int MovingSnake(int count, int direction)
                 snake[i][X] = front_X;
 
                 //move to front
-                BoardReset(snake[i]);
                 BoardMarking(snake[i]);
 
                 //swap information
@@ -224,8 +226,8 @@ int main()
 
 
     snake_head = 0;
-    snake[snake_head][Y]=1;
-    snake[snake_head][X]=1;
+    snake[snake_head][Y]=0;
+    snake[snake_head][X]=0;
     snake_head_directoin = Y;
     snake_head_weight = DOWN;
     BoardMarking(snake[snake_head]);
