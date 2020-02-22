@@ -36,6 +36,8 @@ int BFS(){
 
             if(nextY < N &&
                nextX < M &&
+               nextX >= 0 &&
+               nextY >= 0 &&
                decayed[nextY][nextX] == 0){
                    decayed[nextY][nextX] = 2;
                    Point point;
@@ -60,11 +62,44 @@ int BFS(){
 }
 
 
+void Experiment(){
+    for(int i=0; i<N; i++)
+        for(int j=0; j<M; j++)
+            decayed[i][j] = board[i][j];
+}
+
+
+int MakeWall(int current){
+    if(current == 3){
+        Experiment();
+        return BFS();
+    }
+
+    int result = 0;
+    int max = -99;
+
+    for(int i=0; i<N; i++)
+        for(int j=0; j<M; j++){
+            if(board[i][j] == 0){
+                board[i][j] = 1;
+                result = MakeWall(current + 1);
+                board[i][j] = 0;
+                max = max > result ? max : result;
+            }
+        }
+
+    return max;
+
+
+}
+
 
 
 
 
 int main(){
+
+    queue<Point> que;
 
     scanf("%d %d",&N, &M);
 
@@ -80,18 +115,24 @@ int main(){
     
     
     //초기화 완료
+    int max = -99;
 
-    
 
     for(int i=0; i<N; i++)
         for(int j=0; j<M; j++){
-            
+            int result = 0;
+            if(board[i][j] == 0){
+                board[i][j] =1;
+                result = MakeWall(1);
+                board[i][j] = 0;
+                max = max > result ? max : result;
+            }
         }
-                
-
-
 
     
+
+    printf("%d",max);
+
 
 
     return 0;
