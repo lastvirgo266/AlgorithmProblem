@@ -29,14 +29,14 @@ int main(){
 
         for(int j=1; j<N; j++){
 
-            if(current_height == board[i][j])
+            if(current_height == board[i][j] && start_slop == 0)
                 current_count++;
 
 
             else{
                 if(current_height - board[i][j] == 1 || current_height - board[i][j] == -1){
                     
-                    if(end_slope == 0){
+                    if(start_slop == 0 && end_slope == 0){
                         
                         start_slop = current_height - board[i][j];
                         end_slope = 1;
@@ -98,12 +98,9 @@ int main(){
         }
 
             if(end_slope == 0){
-               // printf("i : %d\n",i);
                 count++;
             }
     }
-
-
 
 
     //column search
@@ -117,14 +114,14 @@ int main(){
 
         for(int i=1; i<N; i++){
 
-            if(current_height == board[i][j])
+            if(current_height == board[i][j] && start_slop == 0)
                 current_count++;
 
 
             else{
                 if(current_height - board[i][j] == 1 || current_height - board[i][j] == -1){
                     
-                    if(end_slope == 0){
+                    if(start_slop ==0 && end_slope == 0){
 
                         start_slop = current_height - board[i][j];
                         end_slope = 1;
@@ -180,13 +177,9 @@ int main(){
 
 
 
-
-
-
         }
 
             if(end_slope == 0){
-                //printf("j : %d\n",j);
                 count++;
             }
     }
