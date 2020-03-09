@@ -11,16 +11,30 @@ using namespace std;
 
 
 int map[50][50] = {0,};
-int direct[4][2] = {{-1,0}};
+int direct[4][2] = {{-1,0}, {0,1}, {1,0}, {0, -1}};
 int N,L,R;
 
+int Test(){
+    for(int i=0; i<N; i++){
+        for(int j=0; j<N; j++){
+            printf("%d ",map[i][j]);
+        }
+
+        printf("\n");
+    }
+
+    printf("\n\n\n");
+}
 
 int Solve(){
     int visited[50][50][5] = {0, };
-    int blood = 0;
-    int blood_count = 0;
+    int blood[50] = {0,};
+    int blood_count[50] = {0,};
 
-    vector< pair< int, int > > blood_country;
+    int group_split = 0;
+
+    vector < vector< pair< int, int > > > blood_country;
+    blood_country.resize(2);
 
     for(int i=0; i<N; i++)
         for(int j=0; j<N; j++){
@@ -29,8 +43,8 @@ int Solve(){
                 if(i+direct[k][0] >=0 &&
                    i+direct[k][0] <N &&
                    j+direct[k][1] >=0 &&
-                   j+direct[k][1] <N )
-                {
+                   j+direct[k][1] <N ){
+
                     int near_y = i+direct[k][0];
                     int near_x = j+direct[k][1];
                     int result = abs(map[near_y][near_x] - map[i][j]);
@@ -43,21 +57,23 @@ int Solve(){
                     result <= R && 
                     result >= L){
 
-                        //우리와 이미 연합을 맺었는지 체크
-                        if(visited[near_y][near_x][GROUP] == 0){
-                            blood_country.push_back({near_y,near_x});
-                            blood += map[near_y][near_x];
-                            blood_count++;
-                            visited[near_y][near_x][GROUP] = 1;
+                        //연합을 만들었는지 체크
+                        if(visited[i][j][GROUP] == 0){
+                            visited[i][j][GROUP] = ++group_split;
+                            blood_country[group_split].push_back({i,j});
+                            blood[group_split] += map[i][j];
+                            blood_count[group_split]++;
                         }
 
-                        //이미 연합을 맺었는지 체크
-                        if(visited[i][j][GROUP] == 0){
-                            blood_country.push_back({i,j});
-                            blood += map[i][j];
-                            blood_count++;
-                            visited[i][j][GROUP] = 1;
+                        //우리와 이미 연합을 맺었는지 체크
+                        if(visited[near_y][near_x][GROUP] == 0){
+                            int now_group = visited[i][j][GROUP];
+                            visited[near_y][near_x][GROUP] = now_group;
+                            blood_country[now_group].push_back({near_y,near_x});
+                            blood[now_group] += map[near_y][near_x];
+                            blood_count[now_group]++;
                         }
+
 
                         visited[near_y][near_x][near_line] = 1;
                         visited[i][j][my_line] = 1;
@@ -67,18 +83,28 @@ int Solve(){
             }
     }
 
-    if(blood_count == 0){
-        return 0;
-    }
+    int check = 0;
+
 
     for(int i=0; i<blood_country.size(); i++){
-        int y = blood_country[i].first;
-        int x = blood_country[i].second;
+        if(blood_count[i] != 0){
+            check = 1;
+            for(int j=0; j<blood_country[i].size(); j++){
+                int y = blood_country[i][j].first;
+                int x = blood_country[i][j].second;
 
-        map[y][x] = blood / blood_count;
+                printf("%d %d \n",y,x);
+
+                map[y][x] = blood[i] / blood_count[i];
+            }
+        }
+
     }
 
-    return 1;
+    if(check == 1)
+        return 1;
+    else
+     return 0;
 
 }
 
