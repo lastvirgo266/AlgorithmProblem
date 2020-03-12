@@ -128,7 +128,7 @@ int Solve(){
 
     }
 
-    Test();
+    //Test();
 
     if(check == 1)
         return 1;
@@ -150,6 +150,7 @@ int main(){
 
     while( (reuslt = Solve()) != 0 )
         count++;
+    
 
 
 
