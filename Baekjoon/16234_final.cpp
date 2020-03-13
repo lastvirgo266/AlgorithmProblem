@@ -9,18 +9,6 @@ int map[50][50] = {0,};
 int direct[4][2] = {{-1,0}, {0,1}, {1,0}, {0, -1}};
 int N,L,R;
 
-void Test(){
-    for(int i=0; i<N; i++){
-        for(int j=0; j<N; j++){
-            printf("%d ",map[i][j]);
-        }
-
-        printf("\n");
-    }
-
-    printf("\n\n\n");
-}
-
 int Solve(){
     int visited[50][50] = {0, };
 
@@ -95,10 +83,6 @@ int Solve(){
 
             }
         }
-
-
-
-    //Test();
 
     if(check == 1)
         return 1;
