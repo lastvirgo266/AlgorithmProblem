@@ -48,6 +48,8 @@ int Solve(){
                 blood[group_split] += map[i][j];
                 blood_count[group_split]++;
 
+                int alone_check =1;
+
                 q.push({i,j});
 
                 while(!q.empty()){
@@ -92,6 +94,8 @@ int Solve(){
                                 visited[near_y][near_x][near_line] = 1;
                                 visited[now_y][now_x][my_line] = 1;
 
+                                alone_check = 0;
+
 
                             }
 
@@ -104,6 +108,14 @@ int Solve(){
 
                 }//End of while
 
+                if(alone_check == 1){
+                    visited[i][j][GROUP] = -1;
+                    blood_country[group_split].pop_back();
+                    blood[group_split] -= map[i][j];
+                    blood_count[group_split]--;
+                    group_split--;
+                }
+
 
             }
         }
@@ -111,7 +123,7 @@ int Solve(){
     int check = 0;
 
 
-    for(int i=0; i<blood_country.size(); i++){
+    for(int i=0; i<=group_split; i++){
 
         if(blood_count[i] > 1){
 
@@ -148,8 +160,9 @@ int main(){
         for(int j=0; j<N; j++)
             scanf("%d",&(map[i][j]));
 
-    while( (reuslt = Solve()) != 0 )
+    while( (reuslt = Solve()) != 0 ){
         count++;
+    }
     
 
 
