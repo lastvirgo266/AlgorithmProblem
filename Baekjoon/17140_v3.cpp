@@ -14,6 +14,8 @@ int R,C,K;
 int Change(){
 
     if(x_len <= y_len){
+        
+
         //Row Change
         int new_x_len = 0;
         for(int i=0; i<y_len; i++){
