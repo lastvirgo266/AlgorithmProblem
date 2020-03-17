@@ -135,20 +135,16 @@ int main(){
 
     int T = 0;
 
-    //Test();
-
     if(map[R][C] == K);
 
     else{
         while( Change() != K){
             T++;
-           // Test();
             if(T > 100){
                 printf("-1");
                 return 0;
             }
         }
-           // Test();
         T++;
     }
 
