@@ -15,6 +15,18 @@ int robot_fert[10][10] = {0,};
 vector< vector < vector < int> > > map;
 vector < vector < vector <int> > > destroy;
 
+void Test(){
+    for(int i=0; i<N; i++){
+        for(int j=0; j<N; j++){
+            for(int k=0; k<map[i][j].size(); k++)
+                printf("map %d, %d = %d\n",i,j, map[i][j][k]);
+        }
+    }
+
+    printf("\n\n");
+}
+
+
 
 void InitMap(){
     map.resize(10);
@@ -50,7 +62,7 @@ int CountTree(){
 void SortMapAgeASC(){
     for(int i=0; i<N; i++)
         for(int j=0; j<N; j++)
-            if(map[i][j].size()>2)
+            if(map[i][j].size()>=2)
                 sort(map[i][j].begin(), map[i][j].end());
 }
 
@@ -165,8 +177,9 @@ int main(){
     }
     
     Winter();
-
+    K++;
     while (K--){
+        Test();
         Spring();
         Summer();
         Fall();
