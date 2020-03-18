@@ -10,22 +10,10 @@ int N,M,K;
 int fert[10][10] ={ 0, };
 int direction[8][2] = { {1,0}, {-1,0}, {1,1}, {1, -1}, {-1,1}, {-1, -1}, {0,1}, {0,-1} };
 
-int robot_fert[10][10] = {0,};
+int robot_fert[10][10] = { 0, };
 
 vector< vector < vector < int> > > map;
 vector < vector < vector <int> > > destroy;
-
-void Test(){
-    for(int i=0; i<N; i++){
-        for(int j=0; j<N; j++){
-            for(int k=0; k<map[i][j].size(); k++)
-                printf("map %d, %d = %d\n",i,j, map[i][j][k]);
-        }
-    }
-
-    printf("\n\n");
-}
-
 
 
 void InitMap(){
@@ -185,11 +173,8 @@ int main(){
     
     while (K){
         Spring();
-             //   Test();
         Summer();
-             //   Test();
         Fall();
-            //    Test();
         Winter();
        K--;
     }
