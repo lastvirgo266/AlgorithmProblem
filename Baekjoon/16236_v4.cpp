@@ -10,7 +10,6 @@ int shark_needs = 0;
 int fish[20][20] = {0,};
 
 int move_direction[4][2] = { {-1, 0}, {0, -1}, {1,0}, {0,1} };
-int eat_direction[4][2] = { {0,-1}, {-1 ,0}, {0,1}, {1,0} };
 
 //V2작성 30분 소모
 
