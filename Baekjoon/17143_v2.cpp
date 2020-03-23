@@ -12,11 +12,14 @@ typedef struct __shark{
 
 int shark_map[101][101] = {0,};
 int fish = 0;
+
+// { {y,x}, shark }
 vector< pair< pair<int, int> , Shark> > shark_list;
 int Y,X;
 
 //초안 작성 1시간걸림
 //key, value ==>고유 값이 필요한데 pair를 써버림... (map을 써야했음)
+//테스트 시간 30분걸림
 
 
 void ParsingDirection(int direction, Shark &shark){
@@ -85,7 +88,7 @@ void MoveAllShark(){
                 }
 
                 if(Y <= y + can_distance*shark.direction[0]){
-                    int reminder = y - can_distance*shark.direction[0];
+                    int reminder = ( Y-1 ) - ( y + can_distance*shark.direction[0]);
                     can_distance = (-reminder);
                     shark.direction[0] = (-shark.direction[0]);
                     y = Y-1; 
@@ -112,8 +115,8 @@ void MoveAllShark(){
                     x = 0;
                 }
 
-                if(X <= X + can_distance*shark.direction[1]){
-                    int reminder = x - can_distance*shark.direction[1];
+                if(X <= x + can_distance*shark.direction[1]){
+                    int reminder = (X - 1) - ( x + can_distance*shark.direction[1] );
                     can_distance = (-reminder);
                     shark.direction[1] = (-shark.direction[1]);
                     x = X-1; 
@@ -139,10 +142,11 @@ void MoveAllShark(){
                         new_shark_list[i].second = shark;
                       }
                }
-           }
+            }
 
             else{
                 new_shark_list.push_back({ {y,x}, shark } );
+                new_map[y][x] = 1;
             }
 
     }
@@ -160,9 +164,6 @@ void MoveAllShark(){
     for(int i=0; i<Y; i++)
         for(int j=0; j<X; j++)
             shark_map[i][j] = new_map[i][j];
-
-
-
 }
 
 
@@ -186,10 +187,12 @@ int main(){
     }
 
 
+
     //초기화 종료
 
-    for(int i=0; i<Y; i++){
-        EatShark(i);
+    //Start time
+    for(int j=0; j<X; j++){
+        EatShark(j);
         MoveAllShark();
     }
 
