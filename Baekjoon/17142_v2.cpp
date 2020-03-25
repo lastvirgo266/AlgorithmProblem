@@ -17,18 +17,6 @@ int result_min = 99999999;
 vector< pair<int, int> > active_virus;
 vector< pair<int, int> > virus_positon;
 
-
-void Test(){
-    for(int i=0; i<N; i++){
-        for(int j=0; j<N; j++){
-            printf("%d   ", temp_map[i][j]);
-        }
-        printf("\n");
-    }
-
-    printf("\n\n\n");
-}
-
 int Check(){
     for(int i=0; i<N; i++)
         for(int j=0; j<N; j++)
@@ -38,7 +26,6 @@ int Check(){
     return 1;
 
 }
-
 
 void MapParsing(){
     for(int i=0; i<N; i++)
