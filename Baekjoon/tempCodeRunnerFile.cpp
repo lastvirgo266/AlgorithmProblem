@@ -1,2 +1,18 @@
-    // if(Check())
-    //     return 0;
+#include<stdio.h>
+
+
+
+int main(){
+    int A,B;
+
+    scanf("%d %d", &A, &B);
+
+    while (A != 0 && B !=0){
+        printf("%d",A+B);
+        scanf("%d %d",&A,&B);
+    }
+    
+
+
+    return 0;
+}
