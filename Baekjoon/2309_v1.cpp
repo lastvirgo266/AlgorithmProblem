@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<vector>
+#include<algorithm>
 using namespace std;
 
 int visited[9] = {0,};
@@ -50,6 +51,7 @@ int DFS(int stack, int index){
 
 
 
+
 int main(){
 
     for(int i=0; i<9; i++){
@@ -60,6 +62,9 @@ int main(){
 
 
     DFS(0,0);
+
+
+    sort(true_list.begin(), true_list.end());
 
     for(int i=0; i<7; i++)
         printf("%d\n",true_list[i]);
