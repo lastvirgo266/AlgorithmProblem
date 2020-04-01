@@ -19,9 +19,9 @@ bool cmp(int a, int b){
 int main(){
 
 
-    long long value = 0;
-    vector<long long> result;
-    result.resize(10);
+    int value = 0;
+    vector<int> result;
+    result.resize(30);
 
     for(int i=0;i<result.size(); i++)
         result[i] = 0;
@@ -44,7 +44,6 @@ int main(){
     }
 
     sort(result.begin(), result.end(), cmp);
-
 
     for(int i=0; i<result.size(); i++){
         value += result[i]*(9-i);
