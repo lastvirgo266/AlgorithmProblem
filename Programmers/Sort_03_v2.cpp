@@ -4,6 +4,10 @@
 
 using namespace std;
 
+
+//또다른 버전
+
+
 bool cmp (int a, int b){
     return a > b;
 }
@@ -15,10 +19,11 @@ int solution(vector<int> citations) {
     sort(citations.begin(), citations.end(), cmp);
     
     int N = citations.size();
+    answer = N;
     
     for(int i=0; i< citations.size();  i++){
-        if(i+1 >= citations[i]){
-            answer = i+1;
+        if(i >= citations[i]){
+            answer = i;
             break;
         }
     }
