@@ -11,7 +11,7 @@ int solution(vector<vector<int>> triangle) {
     int max_height = triangle.size()-1;
     int max = 0;
     
-    //value, (height, cur)
+    //value, (hight, cur)
     queue < pair< int, pair<int, int> > > q;
     
     q.push({triangle[0][0], {0,0} });
