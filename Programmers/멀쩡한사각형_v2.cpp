@@ -30,7 +30,7 @@ long long solution(int w,int h)
     
     not_use *= g;
     
-    answer = w*h - not_use;
+    answer = (long long)w* (long long)h - not_use;
     
     
     
