@@ -5,30 +5,30 @@
 int answer=0;
 
 int solve(int num, int cur_plus){ 
+    int result = 0;
 
-        if(num < pow(3, cur_plus/2))
-            return 0;
+        if(num < 1 || num < pow(3, cur_plus/2)) return 0;
         
         if(num == 3){
             if(cur_plus == 2){
                 answer++;
-                return 0;
+                return 1;
             }
             
             return 0;
+            
         }
     
-        
-        else if (num > 3){
+        else if(num >3){
             if(num % 3 == 0 && cur_plus >= 2){
-                solve(num/3, cur_plus-2);
+                result += solve(num/3, cur_plus-2);
             }
-    
-            solve(num-1, cur_plus+1);
+
+            result +=solve(num-1, cur_plus+1);
         }
     
     
-    return 0;
+    return result;
         
     
     
@@ -39,9 +39,11 @@ int solution(int n){
     int _answer = 0;
     
     
-    solve(n,0);
+    _answer = solve(n,0);
     
-    _answer = answer;
+    //_answer = answer;
+    
+    printf("%d %d",answer, _answer);
     
     
     
