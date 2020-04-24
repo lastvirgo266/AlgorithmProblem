@@ -6,8 +6,8 @@ int answer=0;
 
 int solve(int num, int cur_plus){ 
     
-        int must_left = pow(3, cur_plus/2);
-        if(num < must_left)
+
+        if( num <1 || 2*log(num)/log(3) < cur_plus)
             return 0;
         
         if(num == 3){
