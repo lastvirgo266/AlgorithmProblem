@@ -16,11 +16,11 @@ class Solution {
         
         Arrays.sort(arr,(o1, o2)->
                     {if(o1[0] != o2[0]) 
-                        return o1[0] - o2[0]; 
+                        return o2[0] - o1[0]; 
                     else 
-                        return o1[1] - o2[1];});
+                        return o2[1] - o1[1];});
         
-        for(int i=0; i<k; i++){
+        for(int i=len-1; i>=len-k; i--){
             store[arr[i][1]] = -1;
         }
         
@@ -28,8 +28,6 @@ class Solution {
             if(store[i] != -1)
                 answer += Integer.toString(store[i]);
         }
-        
-        
         return answer;
     }
 }
