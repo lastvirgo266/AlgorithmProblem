@@ -1,0 +1,65 @@
+import java.util.*;
+
+class Solution {
+    
+    int[] visited;
+    
+    public int[] solution(int n, long k) {
+        int[] answer = {};
+        visited = new int[n+1];
+        
+        for(int i=0; i<=n; i++){
+            visited[i] = 0;
+        }
+        
+        answer = getSolve(n,k);
+        
+        
+        return answer;
+    }
+    
+    public int[] getSolve(int n, long k){
+        
+       int[] list = new int[n];
+        int index = 0;
+        
+        while(k >= 1){
+            
+            long start = 1;
+            for(int i=n-1; i>=1; i--){
+                start *= i;
+            }
+            
+            int count = 1;
+            while(k >= start && n >= count){
+                k -= start;
+                count++;
+            }
+            
+            n--;
+            
+            System.out.println(count);
+            
+            if(count == 0)
+                continue;
+            
+            
+            list[index++] = getNextNumber(count);
+            
+        }
+        
+        return list;
+    }
+    
+    
+    public int getNextNumber(int n){
+        int len = visited.length-1;
+        for(int i=n; i<=len; i++){
+            if(visited[i] == 0){
+                visited[i] = 1;
+                return i;
+            }
+        }
+        return -1;
+    }
+}
